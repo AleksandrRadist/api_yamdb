@@ -135,3 +135,9 @@ REST_FRAMEWORK = {
         'PAGE_SIZE': 10
     }
 AUTH_USER_MODEL = 'api_users.User'
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'youremail@gmail.com'
+EMAIL_HOST_PASSWORD = 'yourpassword'
+EMAIL_PORT = 587
