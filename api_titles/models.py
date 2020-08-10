@@ -12,3 +12,5 @@ class Title(models.Model):
                                  on_delete=models.SET_NULL,
                                  related_name='categories')
     genre = models.ManyToManyField(Genre, related_name='genres')
+    rating = models.FloatField(default=None, blank=True, null=True)
+    

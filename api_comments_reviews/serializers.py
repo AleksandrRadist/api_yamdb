@@ -36,7 +36,7 @@ class ReviewSerializer(ModelSerializer):
         user = self.context.get('request').user
 
         if self.context.get('request').method == 'POST':
-            if ((not Titles.objects.filter(id=title_id).exists()) or
+            if ((not Title.objects.filter(id=title_id).exists()) or
                     not bool(data)):
                 return ValidationError
 

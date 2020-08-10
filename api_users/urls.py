@@ -1,4 +1,4 @@
-from django.urls import path, include
+from django.urls import include, path, re_path
 
 from .views import (
     UsersViewSet,
@@ -35,7 +35,7 @@ urlpatterns += [
         name='token_refresh'
     ),
     path('v1/auth/email/', signup, name='signup'),
-    path('v1/auth/token/(?P<uidb64>[0-9A-Za-z_\-]+)/'
-         '(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-         activate, name='activate'),
+    re_path(r'v1/auth/token/(?P<uidb64>[0-9A-Za-z_\-]+)/' +
+            r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+            activate, name='activate'),
 ]

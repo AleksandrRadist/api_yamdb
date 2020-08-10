@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 
 
 urlpatterns = [
+    path('api/', include('api_comments_reviews.urls')),
     path('api/', include('api_titles.urls')),
     path('api/', include('api_categories.urls')),
     path('api/', include('api_genres.urls')),
