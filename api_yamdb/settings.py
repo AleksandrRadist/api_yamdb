@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'api_users',
+    'api_titles',
+    'api_categories',
+    'api_genres',
 ]
 
 MIDDLEWARE = [
@@ -146,3 +149,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'youremail@gmail.com'
 EMAIL_HOST_PASSWORD = 'yourpassword'
 EMAIL_PORT = 587
+
