@@ -1,11 +1,24 @@
 from rest_framework import serializers
 
-from api_categories.models import Category
-from api_categories.serializers import CategorySerializer
-from api_genres.models import Genre
-from api_genres.serializers import GenreSerializer
-
+from .models import Category
+from .models import Genre
 from .models import Title
+
+
+class CategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ('name', 'slug')
+        lookup_field = 'slug'
+
+
+class GenreSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Genre
+        fields = ('name', 'slug')
+        lookup_field = 'slug'
 
 
 class CategoryField(serializers.SlugRelatedField):
