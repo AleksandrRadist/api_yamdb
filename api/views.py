@@ -1,19 +1,13 @@
 from django_filters.rest_framework import DjangoFilterBackend
-
-from .filters import TitleFilter
-from .models import Title
-from .serializers import TitleSerializer
-
-from .models import Genre
-from .serializers import GenreSerializer
 from rest_framework import filters, mixins, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from .permissions import IsAdminOrReadOnly
+from content.filters import TitleFilter
+from content.models import Category, Genre, Title
+from content.permissions import IsAdminOrReadOnly
 
-from .models import Category
-from .serializers import CategorySerializer
+from .serializers import CategorySerializer, GenreSerializer, TitleSerializer
 
 
 class CategoryViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,

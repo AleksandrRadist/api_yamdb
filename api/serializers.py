@@ -1,8 +1,6 @@
 from rest_framework import serializers
 
-from .models import Category
-from .models import Genre
-from .models import Title
+from content.models import Category, Genre, Title
 
 
 class CategorySerializer(serializers.ModelSerializer):
