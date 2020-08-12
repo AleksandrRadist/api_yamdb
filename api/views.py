@@ -3,10 +3,10 @@ from rest_framework import filters, mixins, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
-from content.filters import TitleFilter
 from content.models import Category, Genre, Title
-from content.permissions import IsAdminOrReadOnly
 
+from .filters import TitleFilter
+from .permissions import IsAdminOrReadOnly
 from .serializers import CategorySerializer, GenreSerializer, TitleSerializer
 
 
