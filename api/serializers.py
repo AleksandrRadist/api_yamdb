@@ -31,15 +31,21 @@ class GenreField(serializers.SlugRelatedField):
         return serializer.data
 
 
-class TitleSerializer(serializers.ModelSerializer):
-    category = CategoryField(slug_field='slug',
-                             queryset=Category.objects.all(),
-                             required=False)
-    genre = GenreField(slug_field='slug',
-                       queryset=Genre.objects.all(),
-                       required=False,
-                       many=True)
+class TitleReadSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    genre = GenreSerializer(read_only=True, many=True)
 
     class Meta:
-        model = Title
         fields = '__all__'
+        model = Title
+
+
+class TitleWriteSerializer(serializers.ModelSerializer):
+    category = serializers.SlugRelatedField(
+        queryset=Category.objects.all(), slug_field='slug')
+    genre = serializers.SlugRelatedField(
+        queryset=Genre.objects.all(), slug_field='slug', many=True)
+
+    class Meta:
+        fields = '__all__'
+        model = Title
