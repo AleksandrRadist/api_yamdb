@@ -22,12 +22,14 @@ class GenreSerializer(serializers.ModelSerializer):
 
 
 class CategoryField(serializers.SlugRelatedField):
+
     def to_representation(self, value):
         serializer = CategorySerializer(value)
         return serializer.data
 
 
 class GenreField(serializers.SlugRelatedField):
+
     def to_representation(self, value):
         serializer = GenreSerializer(value)
         return serializer.data
@@ -41,12 +43,14 @@ class TitleSerializer(serializers.ModelSerializer):
                        queryset=Genre.objects.all(),
                        required=False,
                        many=True)
+    rating = serializers.FloatField(read_only=True)
 
     class Meta:
         model = Title
         fields = '__all__'
 
 # Comments and Reviews serializers
+
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.CharField(source='author.username', read_only=True)
@@ -77,11 +81,10 @@ class ReviewSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
 
         if self.context.get('request').method == 'POST':
-            if ((not Titles.objects.filter(id=title_id).exists()) or
+            if ((not Title.objects.filter(id=title_id).exists()) or
                     not bool(data)):
                 return serializers.ValidationError
 
             if Review.objects.filter(author=user, title__id=title_id).exists():
                 raise serializers.ValidationError
         return data
-

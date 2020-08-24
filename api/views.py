@@ -29,7 +29,7 @@ class CategoryViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 
 
 class GenreViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
-                   mixins.DestroyModelMixin, viewsets.GenericViewSet):
+                   mixins.DestroyModelMixin, GenericViewSet):
     lookup_field = 'slug'
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
@@ -47,7 +47,7 @@ class TitleViewSet(ModelViewSet):
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
-        titles = Title.objects.annotate(rating=Avg('review__score'))
+        titles = Title.objects.annotate(rating=Avg('reviews__score'))
         return titles
 
 class ReviewViewsSet(ModelViewSet):
