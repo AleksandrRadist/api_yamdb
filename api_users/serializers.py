@@ -23,3 +23,7 @@ class UsersSerializer(serializers.ModelSerializer):
             'role'
         )
         model = User
+
+
+class EmailSerializer(serializers.Serializer):
+    email = serializers.EmailField()

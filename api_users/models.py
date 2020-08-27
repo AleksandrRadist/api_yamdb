@@ -2,17 +2,25 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class User(AbstractUser):
-    USER_ROLE_CHOICES = (
-      ('user', 'user'),
-      ('moderator', 'moderator'),
-      ('admin', 'admin'),
+class Role():
+    USER = 'user'
+    MODERATOR = 'moderator'
+    ADMIN = 'admin'
+    ROLE_CHOICES = (
+        (USER, 'user'),
+        (MODERATOR, 'moderator'),
+        (ADMIN, 'admin'),
     )
 
+
+class User(AbstractUser):
     bio = models.TextField(blank=True)
     role = models.CharField(
-      max_length=20,
-      choices=USER_ROLE_CHOICES,
-      default='user'
+      max_length=25,
+      choices=Role.ROLE_CHOICES,
+      default=Role.USER
     )
-    is_staff = models.BooleanField(default=False)
+
+    @property
+    def is_admin(self):
+        return self.role == Role.ADMIN and self.is_staff
