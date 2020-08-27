@@ -33,18 +33,18 @@ class Title(models.Model):
 
 class Review(models.Model):
     title = models.ForeignKey(Title, on_delete=models.CASCADE,
-                                related_name='reviews')
+                              related_name='reviews')
     author = models.ForeignKey(User, on_delete=models.CASCADE,
-                                related_name='reviews')
+                               related_name='reviews')
 
     text = models.TextField()
-    score = models.PositiveSmallIntegerField(default=1, validators=[score_limits_validator])
+    score = models.PositiveSmallIntegerField(
+            default=1, validators=[score_limits_validator])
     pub_date = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         self.clean_fields()
         super().save(*args, **kwargs)
-
 
 
 class Comment(models.Model):

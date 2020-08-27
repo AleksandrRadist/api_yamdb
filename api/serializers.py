@@ -3,10 +3,11 @@ from rest_framework import serializers
 from content.models import (Category, Comment, Genre,
                             Review, Title)
 
-# Category, Genre and Title serializers 
+# Category, Genre and Title serializers
+
 
 class CategorySerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Category
         fields = ('name', 'slug')
@@ -33,21 +34,6 @@ class GenreField(serializers.SlugRelatedField):
     def to_representation(self, value):
         serializer = GenreSerializer(value)
         return serializer.data
-
-
-class TitleSerializer(serializers.ModelSerializer):
-    category = CategoryField(slug_field='slug',
-                             queryset=Category.objects.all(),
-                             required=False)
-    genre = GenreField(slug_field='slug',
-                       queryset=Genre.objects.all(),
-                       required=False,
-                       many=True)
-    rating = serializers.FloatField(read_only=True)
-
-    class Meta:
-        model = Title
-        fields = '__all__'
 
 # Comments and Reviews serializers
 
@@ -88,3 +74,24 @@ class ReviewSerializer(serializers.ModelSerializer):
             if Review.objects.filter(author=user, title__id=title_id).exists():
                 raise serializers.ValidationError
         return data
+
+
+class TitleReadSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    genre = GenreSerializer(read_only=True, many=True)
+    rating = serializers.FloatField(read_only=True)
+
+    class Meta:
+        fields = '__all__'
+        model = Title
+
+
+class TitleWriteSerializer(serializers.ModelSerializer):
+    category = serializers.SlugRelatedField(
+        queryset=Category.objects.all(), slug_field='slug')
+    genre = serializers.SlugRelatedField(
+        queryset=Genre.objects.all(), slug_field='slug', many=True)
+
+    class Meta:
+        fields = '__all__'
+        model = Title

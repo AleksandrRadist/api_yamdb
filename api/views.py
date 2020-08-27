@@ -9,10 +9,11 @@ from django.db.models import Avg
 from django.shortcuts import get_object_or_404
 
 from .filters import TitleFilter
-from .permissions import IsAdminOrReadOnly, IsAuthorOrStaff
-from .serializers import (CategorySerializer, 
-                        CommentSerializer, GenreSerializer,
-                        ReviewSerializer, TitleSerializer)
+from .permissions import (IsAdminOrReadOnly, IsAuthorOrStaff,
+                          SAFE_METHODS)
+from .serializers import (CategorySerializer, CommentSerializer,
+                          GenreSerializer, ReviewSerializer,
+                          TitleReadSerializer, TitleWriteSerializer)
 from content.models import (Category, Comment, Genre,
                             Review, Title)
 
@@ -42,13 +43,18 @@ class GenreViewSet(mixins.CreateModelMixin, mixins.ListModelMixin,
 class TitleViewSet(ModelViewSet):
     permission_classes = [IsAuthenticatedOrReadOnly, IsAdminOrReadOnly]
     filter_backends = [DjangoFilterBackend]
-    serializer_class = TitleSerializer
     filterset_class = TitleFilter
     pagination_class = PageNumberPagination
 
     def get_queryset(self):
         titles = Title.objects.annotate(rating=Avg('reviews__score'))
         return titles
+
+    def get_serializer_class(self):
+        if self.request.method in SAFE_METHODS:
+            return TitleReadSerializer
+        return TitleWriteSerializer
+
 
 class ReviewViewsSet(ModelViewSet):
     serializer_class = ReviewSerializer
@@ -87,4 +93,3 @@ class CommentViewsSet(ModelViewSet):
     def get_queryset(self):
         review = self.get_review()
         return review.comments.all()
-
