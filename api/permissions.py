@@ -1,5 +1,7 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
+from api_users.models import Role
+
 
 class IsAdminOrReadOnly(BasePermission):
     def has_permission(self, request, view):
@@ -12,7 +14,8 @@ class IsAuthorOrStaff(BasePermission):
         if request.method in SAFE_METHODS:
             return True
 
-        if request.user.role in ('admin', 'moderator'):
+        user = request.user
+        if user.is_admin or user.role == Role.MODERATOR :
             return True
 
-        return obj.author == request.user
+        return obj.author == user
