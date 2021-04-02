@@ -14,21 +14,26 @@ REST API для сервиса YaMDb — базы отзывов о фильма
 
 ### Чтобы запустить проект необходимо:
 
-Запустить docker-compose:
+Создать и активировать виртуальное окружение:
 
-    'docker-compose up'
+    'python -m venv venv'
+    'venv\Scripts\activate'
 
-При первом запуске для функционирования проекта обязательно выполнить миграции: 
+Установить зависимости: 
 
-    'docker-compose exec web python manage.py migrate'
+    'pip install -r requirements.txt'
+    
+Запустить миграции: 
 
-Чтобы создать суперпользователя:
+    'python manage.py migrate
 
-    'docker-compose exec web python manage.py createsuperuser'
+Cоздать суперпользователя:
 
-Чтобы загрузить тестовые данные в базу данных:
+    'python manage.py createsuperuser'
 
-    'docker-compose exec web python manage.py loaddata fixtures.json'
+Запустит сервер:
+    
+    'python manage.py runserver'
 
 ### Authors
 
